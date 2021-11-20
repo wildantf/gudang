@@ -162,7 +162,10 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        // Provider unuk role permission
         Spatie\Permission\PermissionServiceProvider::class,
+        // firebase provider
+        Kreait\Laravel\Firebase\ServiceProvider::class,
 
         /*
          * Package Service Providers...

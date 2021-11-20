@@ -1,6 +1,7 @@
 <x-app-layout>
     <div class="px-4 xl:px-24 py-4 xl:py-20">
         {{-- MODAL TAMBAH BARANG --}}
+
         @auth
             <x-modal-form
                 buttonTriggerClass='text-base p-2 mb-2 bg-indigo-700 hover:bg-indigo-600 border-white focus:border-indigo-700'
@@ -26,9 +27,10 @@
                 <x-slot name="approve">
                     Tambahkan
                 </x-slot>
-
             </x-modal-form>
         @endauth
+
+
 
         {{-- TABEL BARANG --}}
         <x-table>
@@ -72,7 +74,7 @@
                             {{ \Carbon\Carbon::parse($item->created_at)->format('d/m/Y') }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $item->user->name??'' }}
+                            {{ $item->user->name ?? '' }}
                         </td>
                         @hasanyrole('admin|staff')
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -138,6 +140,11 @@
                 @endforeach
             </x-slot>
         </x-table>
+        <div class="flex justify-center">
+            <x-button-link :href="route('log.items')" class="bg-gray-200 hover:bg-gray-300 w-auto p-2 mt-2">
+                Cek log aktifitas
+            </x-button-link>
+        </div>
     </div>
 
 </x-app-layout>

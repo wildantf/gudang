@@ -56,11 +56,11 @@
                     </x-dropdown>
                 @else
                     <x-button-link href="{{ route('login') }}"
-                        class="bg-indigo-400 text-white border-4 border-indigo-400 hover:bg-indigo-500 focus:ring-indigo-500">
+                        class="bg-indigo-400 text-white border-4 border-indigo-400 hover:bg-indigo-500 focus:ring-indigo-500 px-4 py-2 rounded-lg">
                         Login
                     </x-button-link>
                     <x-button-link href="{{ route('register') }}"
-                        class="bg-white text-gray-700 border-4 border-indigo-400 hover:text-white hover:bg-indigo-500 focus:ring-indigo-500">
+                        class="bg-white text-gray-700 border-4 border-indigo-400 hover:text-white hover:bg-indigo-500 focus:ring-indigo-500 px-4 py-2 rounded-lg">
                         Register
                     </x-button-link>
                 @endauth

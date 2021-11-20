@@ -7,6 +7,10 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 
+// FIREBASE
+use \Kreait\Firebase\Firestore;
+use Kreait\Laravel\Firebase\Facades\Firebase;
+
 class ItemController extends Controller
 {
     /**
@@ -53,7 +57,21 @@ class ItemController extends Controller
         $validateData['slug'] = SlugService::createSlug(Item::class, 'slug', $validateData['name']);
         $validateData['created_by'] = auth()->user()->id;
 
-        Item::create($validateData);
+        $item = Item::create($validateData);
+
+        // firestore
+        $fire = app('firebase.firestore')->database()->collection('log_activity')->newDocument();
+        $fire->set([
+            'date' => now(),
+            'item_id' => $item->id,
+            'name' => $item->name,
+            'new_name' => $item->name,
+            'stock' => $item->stock,
+            'new_stock' => $item->stock,
+            'user' => auth()->user()->name,
+            'status' => 'create',
+        ]);
+
         return redirect(RouteServiceProvider::HOME)->with('success', 'Barang Berhasil Ditambahkan');
     }
 
@@ -100,6 +118,19 @@ class ItemController extends Controller
 
         $validateData['updated_at'] = now();
 
+        // firestore
+        $fire = app('firebase.firestore')->database()->collection('log_activity')->newDocument();
+        $fire->set([
+            'date' => now(),
+            'item_id' => $item->id,
+            'name' => $item->name,
+            'new_name' => $validateData['name'],
+            'stock' => $item->stock,
+            'new_stock' => intval($validateData['stock']),
+            'user' => auth()->user()->name,
+            'status' => 'update',
+        ]);
+
         $item->update($validateData);
         return redirect(RouteServiceProvider::HOME)->with('success', 'Barang berhasil di edit');
     }
@@ -112,7 +143,29 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        // firestore
+        $fire = app('firebase.firestore')->database()->collection('log_activity')->newDocument();
+        $fire->set([
+            'date' => now(),
+            'item_id' => $item->id,
+            'name' => $item->name,
+            'new_name' => '',
+            'stock' => $item->stock,
+            'new_stock' => '',
+            'user' => auth()->user()->name,
+            'status' => 'update',
+        ]);
+
         $item->delete();
         return back();
+    }
+
+    public function logActivity(){
+        $docRef=app('firebase.firestore')->database()->collection('log_activity');
+        $logData = $docRef->documents();
+        // dd($logData);
+        return view('log-activity', [
+            'logs' => $logData
+        ]);
     }
 }
