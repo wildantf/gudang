@@ -41,7 +41,7 @@
                     </a>
                 </div>
 
-                <x-button class="ml-3 p-2 pt-3">
+                <x-button class="ml-3 p-2 pt-3 bg-gray-700 hover:bg-gray-800">
                     {{ __('Log in') }}
                 </x-button>
             </div>
