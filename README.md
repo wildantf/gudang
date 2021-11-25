@@ -7,7 +7,7 @@
 - pass  : password
 - role  : staff
 
-#Techonogy
+# Techonogy
 - laravel
 - firebase
 - tailwindcss2
